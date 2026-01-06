@@ -4,6 +4,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Menu, X, Phone, Moon, Sun } from "lucide-react"
 import { useTheme } from "@/components/theme-provider"
+import Link from "next/link"
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
@@ -14,25 +15,31 @@ export function Navigation() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <div className="flex items-center">
+          <Link href="/" className="flex items-center">
             <h1 className="text-2xl md:text-3xl font-serif font-semibold tracking-tight text-foreground">
               V.I.P. Travels
             </h1>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
-            <a href="#about" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+            <a href="/#about" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
               About
             </a>
-            <a href="#services" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+            <a href="/#services" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
               Services
             </a>
-            <a href="#tours" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+            <a href="/#tours" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
               Tours
             </a>
+            <Link
+              href="/itinerary"
+              className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+            >
+              Itinerary
+            </Link>
             <a
-              href="#testimonials"
+              href="/#testimonials"
               className="text-sm font-medium text-foreground hover:text-primary transition-colors"
             >
               Testimonials
@@ -74,28 +81,35 @@ export function Navigation() {
           <div className="md:hidden py-4 border-t border-border">
             <div className="flex flex-col gap-4">
               <a
-                href="#about"
+                href="/#about"
                 className="text-sm font-medium text-foreground hover:text-primary transition-colors py-2"
                 onClick={() => setIsOpen(false)}
               >
                 About
               </a>
               <a
-                href="#services"
+                href="/#services"
                 className="text-sm font-medium text-foreground hover:text-primary transition-colors py-2"
                 onClick={() => setIsOpen(false)}
               >
                 Services
               </a>
               <a
-                href="#tours"
+                href="/#tours"
                 className="text-sm font-medium text-foreground hover:text-primary transition-colors py-2"
                 onClick={() => setIsOpen(false)}
               >
                 Tours
               </a>
+              <Link
+                href="/itinerary"
+                className="text-sm font-medium text-foreground hover:text-primary transition-colors py-2"
+                onClick={() => setIsOpen(false)}
+              >
+                Itinerary
+              </Link>
               <a
-                href="#testimonials"
+                href="/#testimonials"
                 className="text-sm font-medium text-foreground hover:text-primary transition-colors py-2"
                 onClick={() => setIsOpen(false)}
               >

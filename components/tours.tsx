@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Calendar, Users, IndianRupee, ArrowRight } from "lucide-react"
+import Link from "next/link"
 
 const tours = [
   {
@@ -86,10 +87,12 @@ export function Tours() {
                   </div>
                 </div>
 
-                <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 group">
-                  View Itinerary
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                </Button>
+                <Link href="/itinerary">
+                  <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 group">
+                    View Itinerary
+                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
           ))}
