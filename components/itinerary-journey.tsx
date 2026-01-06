@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { MapPin, Car } from "lucide-react"
+import { MapPin, Car, Flag, FlagTriangleRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 interface Destination {
@@ -9,6 +9,7 @@ interface Destination {
   description: string
   image: string
   day: string
+  type?: string
 }
 
 interface ItineraryJourneyProps {
@@ -17,13 +18,34 @@ interface ItineraryJourneyProps {
 }
 
 export function ItineraryJourney({ title, destinations }: ItineraryJourneyProps) {
+  const allStops = [
+    {
+      name: "Trip Start",
+      description: "Your journey begins here",
+      image: "/india-airport-departure.jpg",
+      day: "Start",
+      type: "start",
+    },
+    ...destinations,
+    {
+      name: "Trip End",
+      description: "Journey complete! Safe travels home",
+      image: "/india-airport-arrival.jpg",
+      day: "End",
+      type: "end",
+    },
+  ]
+
   const [currentStop, setCurrentStop] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
+  const [autoAdvance, setAutoAdvance] = useState(true)
 
   useEffect(() => {
+    if (!autoAdvance) return
+
     const timer = setInterval(() => {
       setCurrentStop((prev) => {
-        if (prev < destinations.length - 1) {
+        if (prev < allStops.length - 1) {
           setIsAnimating(true)
           setTimeout(() => setIsAnimating(false), 2800)
           return prev + 1
@@ -33,11 +55,23 @@ export function ItineraryJourney({ title, destinations }: ItineraryJourneyProps)
     }, 3000)
 
     return () => clearInterval(timer)
-  }, [destinations.length])
+  }, [allStops.length, autoAdvance])
 
   const resetJourney = () => {
     setCurrentStop(0)
     setIsAnimating(false)
+    setAutoAdvance(true)
+  }
+
+  const jumpToDestination = (index: number) => {
+    setCurrentStop(index)
+    setAutoAdvance(false)
+    setIsAnimating(true)
+    setTimeout(() => setIsAnimating(false), 2800)
+  }
+
+  const resumeAutoPlay = () => {
+    setAutoAdvance(true)
   }
 
   return (
@@ -56,6 +90,11 @@ export function ItineraryJourney({ title, destinations }: ItineraryJourneyProps)
           <Button onClick={resetJourney} variant="outline">
             Restart Journey
           </Button>
+          {!autoAdvance && (
+            <Button onClick={resumeAutoPlay} variant="default">
+              Resume Auto-Play
+            </Button>
+          )}
         </div>
 
         <div className="relative">
@@ -67,16 +106,17 @@ export function ItineraryJourney({ title, destinations }: ItineraryJourneyProps)
               <div
                 className="absolute top-8 left-0 h-1 bg-primary transition-all duration-[3000ms] ease-in-out"
                 style={{
-                  width: `${(currentStop / (destinations.length - 1)) * 100}%`,
+                  width: `${(currentStop / (allStops.length - 1)) * 100}%`,
                 }}
               />
 
               {/* Destinations in horizontal layout */}
               <div className="flex gap-0 relative">
-                {destinations.map((dest, index) => (
+                {allStops.map((stop, index) => (
                   <div
                     key={index}
-                    className={`relative flex-shrink-0 px-8 transition-all duration-700 ${
+                    onClick={() => jumpToDestination(index)}
+                    className={`relative flex-shrink-0 px-8 transition-all duration-700 cursor-pointer hover:scale-105 ${
                       index <= currentStop ? "opacity-100 translate-y-0" : "opacity-30 translate-y-4"
                     }`}
                     style={{ width: "400px" }}
@@ -92,9 +132,15 @@ export function ItineraryJourney({ title, destinations }: ItineraryJourneyProps)
                               : "bg-muted text-muted-foreground"
                         }`}
                       >
-                        <MapPin className="w-6 h-6" />
+                        {stop.type === "start" ? (
+                          <Flag className="w-6 h-6" />
+                        ) : stop.type === "end" ? (
+                          <FlagTriangleRight className="w-6 h-6" />
+                        ) : (
+                          <MapPin className="w-6 h-6" />
+                        )}
                       </div>
-                      <div className="mt-2 text-xs font-semibold text-foreground">{dest.day}</div>
+                      <div className="mt-2 text-xs font-semibold text-foreground">{stop.day}</div>
                     </div>
 
                     {/* Destination card */}
@@ -105,8 +151,8 @@ export function ItineraryJourney({ title, destinations }: ItineraryJourneyProps)
                     >
                       <div className="relative h-56 overflow-hidden">
                         <img
-                          src={dest.image || "/placeholder.svg"}
-                          alt={dest.name}
+                          src={stop.image || "/placeholder.svg"}
+                          alt={stop.name}
                           className="w-full h-full object-cover"
                         />
                         {currentStop === index && isAnimating && (
@@ -119,8 +165,8 @@ export function ItineraryJourney({ title, destinations }: ItineraryJourneyProps)
                         )}
                       </div>
                       <div className="p-6">
-                        <h3 className="text-2xl font-serif font-semibold text-foreground mb-2">{dest.name}</h3>
-                        <p className="text-muted-foreground mb-3">{dest.description}</p>
+                        <h3 className="text-2xl font-serif font-semibold text-foreground mb-2">{stop.name}</h3>
+                        <p className="text-muted-foreground mb-3">{stop.description}</p>
                       </div>
                     </div>
                   </div>
@@ -130,7 +176,7 @@ export function ItineraryJourney({ title, destinations }: ItineraryJourneyProps)
               <div
                 className="absolute top-2 transition-all duration-[3000ms] ease-in-out z-30 pointer-events-none"
                 style={{
-                  left: `calc(${(currentStop / (destinations.length - 1)) * 100}% + ${200}px)`,
+                  left: `calc(${(currentStop / (allStops.length - 1)) * 100}% + ${200}px)`,
                 }}
               >
                 <div className="relative">
@@ -161,8 +207,8 @@ export function ItineraryJourney({ title, destinations }: ItineraryJourneyProps)
           {/* Progress indicator */}
           <div className="text-center text-muted-foreground text-sm mt-8">
             <p className="font-medium">
-              Destination {currentStop + 1} of {destinations.length} •{" "}
-              {Math.round(((currentStop + 1) / destinations.length) * 100)}% Complete
+              Stop {currentStop + 1} of {allStops.length} • {Math.round(((currentStop + 1) / allStops.length) * 100)}%
+              Complete
             </p>
             {isAnimating && (
               <p className="text-xs mt-2 text-primary animate-pulse">Car traveling to next destination...</p>
