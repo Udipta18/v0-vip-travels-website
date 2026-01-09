@@ -20,22 +20,8 @@ export const metadata: Metadata = {
   title: "V.I.P. Travels India - Luxury Travel Experiences Since 1991",
   description:
     "Explore India with V.I.P. Travels. Professional tour packages, luxury buses, and 30 years of excellence in travel services.",
-  generator: "v0.app",
   icons: {
-    icon: [
-      {
-        url: "/icon-light-32x32.png",
-        media: "(prefers-color-scheme: light)",
-      },
-      {
-        url: "/icon-dark-32x32.png",
-        media: "(prefers-color-scheme: dark)",
-      },
-      {
-        url: "/icon.svg",
-        type: "image/svg+xml",
-      },
-    ],
+    icon: "/icon.svg",
     apple: "/apple-icon.png",
   },
 }
