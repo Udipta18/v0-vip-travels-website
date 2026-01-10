@@ -51,9 +51,9 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${inter.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`light ${cormorant.variable} ${inter.variable}`} suppressHydrationWarning>
       <body className={`font-sans antialiased`}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} storageKey="vip-travels-theme">
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} forcedTheme="light">
           {children}
         </ThemeProvider>
         <ScrollToTop />
