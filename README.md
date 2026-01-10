@@ -215,11 +215,6 @@ rm -rf .next
 npm run build
 ```
 
-## 📞 Support
-
-For issues or questions about V.I.P. Travels:
-- **Phone**: +91 9334812901
-- **Website**: [Your website URL]
 
 ## 📄 License
 
