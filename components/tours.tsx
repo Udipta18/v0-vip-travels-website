@@ -3,6 +3,9 @@ import { tours } from "@/lib/tours-data"
 import { ArrowRight } from "lucide-react"
 
 export function Tours() {
+  // Filter to show only upcoming tours
+  const upcomingTours = tours.filter(tour => tour.status === "upcoming")
+
   return (
     <section id="tours" className="py-24 md:py-32 bg-gradient-to-b from-background to-muted/20">
       <div className="container mx-auto px-4">
@@ -21,7 +24,7 @@ export function Tours() {
 
         {/* Tours Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-          {tours.map((tour) => (
+          {upcomingTours.map((tour) => (
             <Link
               key={tour.id}
               href={`/tours/${tour.id}`}

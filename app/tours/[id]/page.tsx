@@ -5,7 +5,6 @@ import { Footer } from "@/components/footer"
 import { EnquiryForm } from "@/components/enquiry-form"
 import { tours } from "@/lib/tours-data"
 import { ArrowLeft, Calendar, IndianRupee, Check, X, MapPin, Clock } from "lucide-react"
-import { Card, CardContent } from "@/components/ui/card"
 
 export async function generateStaticParams() {
     return tours.map((tour) => ({
@@ -97,19 +96,46 @@ export default async function TourDetailPage({ params }: { params: Promise<{ id:
                             <h2 className="font-serif text-3xl md:text-4xl font-semibold text-foreground mb-6">
                                 Day-by-Day Itinerary
                             </h2>
-                            <div className="space-y-6">
-                                {tour.itinerary.map((day) => (
-                                    <Card key={day.day} className="border-l-4 border-l-primary">
-                                        <CardContent className="p-6">
-                                            <div className="flex items-start gap-4">
-                                                <div className="flex-shrink-0">
-                                                    <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold">
-                                                        {day.day}
+                            <div className="space-y-8">
+                                {tour.itinerary.map((day, index) => (
+                                    <div key={day.day} className="bg-card text-card-foreground rounded-xl border border-l-4 border-l-primary shadow-sm overflow-hidden">
+                                        <div className="grid md:grid-cols-2 gap-0">
+                                            {/* Image Section */}
+                                            {day.image && (
+                                                <div className="relative h-64 md:h-full">
+                                                    <img
+                                                        src={day.image}
+                                                        alt={day.title}
+                                                        className="absolute inset-0 w-full h-full object-cover"
+                                                    />
+                                                </div>
+                                            )}
+
+                                            {/* Content Section */}
+                                            <div className={`p-6 ${!day.image ? "md:col-span-2" : ""}`}>
+                                                <div className="flex items-start gap-4 mb-4">
+                                                    <div className="flex-shrink-0">
+                                                        <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-lg">
+                                                            {day.day}
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex-1">
+                                                        <h3 className="font-serif text-xl md:text-2xl font-semibold text-foreground mb-1">
+                                                            {day.title}
+                                                        </h3>
+                                                        {day.meals && (
+                                                            <p className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wide">
+                                                                Meals: {day.meals}
+                                                            </p>
+                                                        )}
                                                     </div>
                                                 </div>
-                                                <div className="flex-1">
-                                                    <h3 className="font-serif text-xl font-semibold text-foreground mb-2">{day.title}</h3>
-                                                    <p className="text-muted-foreground mb-4">{day.description}</p>
+
+                                                <p className="text-muted-foreground leading-relaxed mb-4">
+                                                    {day.description}
+                                                </p>
+
+                                                {day.activities && day.activities.length > 0 && (
                                                     <ul className="space-y-2">
                                                         {day.activities.map((activity, idx) => (
                                                             <li key={idx} className="flex items-start gap-2 text-sm text-muted-foreground">
@@ -118,10 +144,10 @@ export default async function TourDetailPage({ params }: { params: Promise<{ id:
                                                             </li>
                                                         ))}
                                                     </ul>
-                                                </div>
+                                                )}
                                             </div>
-                                        </CardContent>
-                                    </Card>
+                                        </div>
+                                    </div>
                                 ))}
                             </div>
                         </section>
@@ -162,9 +188,9 @@ export default async function TourDetailPage({ params }: { params: Promise<{ id:
                         </section>
                     </div>
 
-                    {/* Right Column - Enquiry Form (Sticky) */}
+                    {/* Right Column - Enquiry Form (Sticky on Desktop) */}
                     <div className="lg:col-span-1">
-                        <div className="sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto">
+                        <div className="lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
                             <EnquiryForm tourTitle={`${tour.title} - ${tour.subtitle}`} />
                         </div>
                     </div>

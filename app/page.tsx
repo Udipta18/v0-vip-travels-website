@@ -8,10 +8,12 @@ import { WhyChoose } from "@/components/why-choose"
 import { Testimonials } from "@/components/testimonials"
 import { CTA } from "@/components/cta"
 import { Footer } from "@/components/footer"
+import { AnnouncementBanner } from "@/components/announcement-banner"
 
 export default function Home() {
   return (
     <main className="min-h-screen">
+      <AnnouncementBanner />
       <Navigation />
       <Hero />
       <About />

@@ -13,6 +13,8 @@ export interface Tour {
         title: string
         description: string
         activities: string[]
+        image?: string
+        meals?: string
     }[]
     inclusions: string[]
     exclusions: string[]
@@ -20,6 +22,7 @@ export interface Tour {
         perPerson: number
         currency: string
     }
+    status: "upcoming" | "past"
 }
 
 export const tours: Tour[] = [
@@ -215,6 +218,7 @@ export const tours: Tour[] = [
             perPerson: 185000,
             currency: "INR",
         },
+        status: "upcoming",
     },
     {
         id: "kenya-safari",
@@ -358,6 +362,7 @@ export const tours: Tour[] = [
             perPerson: 165000,
             currency: "INR",
         },
+        status: "past",
     },
     {
         id: "canadian-rockies",
@@ -589,5 +594,200 @@ export const tours: Tour[] = [
             perPerson: 425000,
             currency: "INR",
         },
+        status: "past",
+    },
+    {
+        id: "arunachal-kaziranga",
+        title: "ADVENTUROUS",
+        subtitle: "ARUNACHAL & KAZIRANGA",
+        days: 10,
+        dates: ["4 APRIL 2026"],
+        image: "/tour_arunachal_kaziranga.png",
+        gradient: "from-yellow-400 via-orange-400 to-red-500",
+        description:
+            "Embark on an adventurous journey through the mystical lands of Arunachal Pradesh and the wildlife haven of Kaziranga. Experience the rich Buddhist culture, breathtaking Himalayan landscapes, and encounter the famous one-horned rhinoceros in their natural habitat.",
+        highlights: [
+            "Visit the iconic Tawang Monastery - largest in India",
+            "Explore the stunning Sela Pass at 13,700 feet",
+            "Witness the majestic one-horned rhinos at Kaziranga",
+            "Experience authentic Buddhist culture and traditions",
+            "Jeep safari through Kaziranga National Park",
+            "Visit Bumla Pass near Indo-China border",
+            "Discover the beautiful Nuranang Waterfall",
+        ],
+        itinerary: [
+            {
+                day: 1,
+                title: "Arrival in Guwahati",
+                description: "Welcome to the Gateway of Northeast India. Upon arrival at Guwahati Airport, guests receive a warm welcome with traditional garlands and a refreshing water bottle for comfort. An English-speaking guide accompanies the group, offering assistance and insights throughout the day. Enjoy a delicious non-vegetarian lunch at a reputed Indian restaurant, followed by a relaxing evening and a comforting non-vegetarian dinner at another Indian restaurant.",
+                image: "/arunachal_day1.png",
+                meals: "Lunch - Dinner",
+                activities: [
+                    "Arrive at Lokpriya Gopinath Bordoloi International Airport",
+                    "Meet and greet by our representative",
+                    "Transfer to hotel in Guwahati",
+                    "Evening visit to Kamakhya Temple (optional)",
+                    "Welcome dinner with traditional Assamese cuisine",
+                ],
+            },
+            {
+                day: 2,
+                title: "Guwahati to Tezpur to Dirang",
+                description: "Journey towards the mountains through the scenic landscapes of Assam and Arunachal Pradesh. Drive through lush tea gardens, traditional villages with colorful houses, and misty hills. Cross into Arunachal Pradesh and experience the transition from plains to mountains as you ascend towards Dirang.",
+                image: "/arunachal_day2.png",
+                meals: "Breakfast - Lunch - Dinner",
+                activities: [
+                    "Early morning departure to Dirang (8-9 hours)",
+                    "Drive through scenic tea gardens and villages",
+                    "Stop at Tezpur for lunch",
+                    "Cross into Arunachal Pradesh",
+                    "Evening arrival at Dirang",
+                    "Check-in to hotel and relaxation",
+                ],
+            },
+            {
+                day: 3,
+                title: "Dirang to Tawang",
+                description: "Cross the magnificent Sela Pass at 13,700 feet, one of the highest motorable passes in the world. Experience breathtaking views of snow-capped mountains, frozen lakes, and colorful prayer flags. Stop at the beautiful Sela Lake and pay respects at the Jaswant Garh War Memorial before arriving in the spiritual town of Tawang.",
+                image: "/arunachal_day3.png",
+                meals: "Breakfast - Lunch - Dinner",
+                activities: [
+                    "Early breakfast and departure",
+                    "Visit Dirang Dzong (fort)",
+                    "Drive through Sela Pass (13,700 ft) with photo stops",
+                    "Visit Paradise Lake (Sela Lake)",
+                    "Stop at Jaswant Garh War Memorial",
+                    "Arrive in Tawang by evening",
+                    "Overnight at Tawang",
+                ],
+            },
+            {
+                day: 4,
+                title: "Tawang Monastery & Local Sightseeing",
+                description: "Explore the spiritual heart of Tawang with a visit to the magnificent Tawang Monastery, the largest Buddhist monastery in India. Built in the 17th century, this architectural marvel houses ancient scriptures, beautiful murals, and a stunning golden Buddha statue. Experience the peaceful atmosphere as monks chant their prayers and prayer flags flutter in the mountain breeze.",
+                image: "/arunachal_day4.png",
+                meals: "Breakfast - Lunch - Dinner",
+                activities: [
+                    "Visit Tawang Monastery - largest in India",
+                    "Explore the monastery museum and library",
+                    "Visit the Giant Buddha statue",
+                    "Tawang War Memorial visit",
+                    "Explore local markets",
+                    "Evening at leisure",
+                ],
+            },
+            {
+                day: 5,
+                title: "Bumla Pass Excursion",
+                description: "Visit the Indo-China border at Bumla Pass, situated at an altitude of 15,200 feet. This high-altitude adventure takes you to one of the most strategic border points, offering stunning views of snow-covered peaks and the beautiful turquoise Madhuri Lake (Sangetsar Lake). Stop at the magnificent Nuranang Waterfall on your return journey.",
+                image: "/arunachal_day5.png",
+                meals: "Breakfast - Lunch - Dinner",
+                activities: [
+                    "Early morning drive to Bumla Pass (15,200 ft)",
+                    "Visit Madhuri Lake (Sangetsar Lake)",
+                    "Photo opportunities at the border",
+                    "Return to Tawang",
+                    "Visit Nuranang Waterfall en route",
+                    "Evening cultural program (if available)",
+                ],
+            },
+            {
+                day: 6,
+                title: "Tawang to Bomdila",
+                description: "Return journey through the mountains with a scenic drive back through Sela Pass. Arrive in the charming town of Bomdila, known for its beautiful monastery and local handicraft center. Experience the peaceful mountain town atmosphere and interact with local artisans.",
+                image: "/arunachal_day6.png",
+                meals: "Breakfast - Lunch - Dinner",
+                activities: [
+                    "Morning departure from Tawang",
+                    "Scenic drive back through Sela Pass",
+                    "Arrive in Bomdila",
+                    "Visit Bomdila Monastery",
+                    "Explore local craft center",
+                    "Overnight at Bomdila",
+                ],
+            },
+            {
+                day: 7,
+                title: "Bomdila to Kaziranga",
+                description: "Journey from the Himalayan foothills to the lush plains of Assam. Experience the dramatic landscape transition as you descend through forests, tea estates, and rural villages. Arrive at Kaziranga National Park, a UNESCO World Heritage Site and home to the world's largest population of one-horned rhinoceros.",
+                image: "/arunachal_day7.png",
+                meals: "Breakfast - Lunch - Dinner",
+                activities: [
+                    "Early morning departure to Kaziranga (7-8 hours)",
+                    "Descend from mountains to plains",
+                    "Lunch en route",
+                    "Arrive at Kaziranga National Park",
+                    "Check-in to resort",
+                    "Evening briefing about safari",
+                ],
+            },
+            {
+                day: 8,
+                title: "Kaziranga National Park - Full Day",
+                description: "Experience the thrill of wildlife safaris in Kaziranga National Park, home to the world's largest population of one-horned rhinoceros. Start with an early morning elephant safari to get up close with rhinos in their natural habitat, followed by an exciting jeep safari through the grasslands where you can spot wild elephants, water buffaloes, deer, and numerous bird species.",
+                image: "/arunachal_day8.png",
+                meals: "Breakfast - Lunch - Dinner",
+                activities: [
+                    "Early morning elephant safari (Central Range)",
+                    "Breakfast at resort",
+                    "Jeep safari in Western Range",
+                    "Spot one-horned rhinos, elephants, and birds",
+                    "Visit Kaziranga Orchid Park",
+                    "Evening at leisure",
+                ],
+            },
+            {
+                day: 9,
+                title: "Kaziranga to Guwahati",
+                description: "Return to Guwahati with optional morning safari. Enjoy a relaxing evening cruise on the mighty Brahmaputra River, visiting the Umananda Temple on Peacock Island. Watch the beautiful sunset over the river while spotting river dolphins and enjoying the peaceful atmosphere of this sacred river.",
+                image: "/arunachal_day9.png",
+                meals: "Breakfast - Lunch - Dinner",
+                activities: [
+                    "Optional early morning jeep safari",
+                    "Breakfast and check-out",
+                    "Drive back to Guwahati (4-5 hours)",
+                    "Cruise on Brahmaputra River (evening)",
+                    "Visit Umananda Temple on Peacock Island",
+                    "Farewell dinner",
+                ],
+            },
+            {
+                day: 10,
+                title: "Departure from Guwahati",
+                description: "Journey ends with beautiful memories of the mountains and wildlife. Enjoy a leisurely morning with optional shopping at local markets where you can buy traditional Assamese silk, handicrafts, and souvenirs. Transfer to the airport for your onward journey, carrying unforgettable memories of Northeast India.",
+                image: "/arunachal_day10.png",
+                meals: "Breakfast",
+                activities: [
+                    "Leisure morning",
+                    "Last-minute shopping at local markets",
+                    "Transfer to airport",
+                    "Departure with unforgettable memories",
+                ],
+            },
+        ],
+        inclusions: [
+            "11 nights accommodation (hotels and resorts)",
+            "All meals - breakfast, lunch, and dinner",
+            "All transfers in comfortable vehicles",
+            "Experienced driver and tour guide",
+            "All permits for Arunachal Pradesh",
+            "Elephant safari at Kaziranga",
+            "2 Jeep safaris at Kaziranga National Park",
+            "All entrance fees and monument charges",
+            "Brahmaputra River cruise",
+        ],
+        exclusions: [
+            "Flights to/from Guwahati",
+            "Travel insurance",
+            "Camera fees at monuments",
+            "Personal expenses and tips",
+            "Any meals not mentioned in inclusions",
+            "Optional activities",
+        ],
+        price: {
+            perPerson: 75000,
+            currency: "INR",
+        },
+        status: "upcoming",
     },
 ]

@@ -85,10 +85,10 @@ export function EnquiryForm({ tourTitle }: { tourTitle: string }) {
 
     return (
         <Card className="border-2 border-primary/20 shadow-xl">
-            <CardContent className="p-8">
+            <CardContent className="p-4 sm:p-6 md:p-8">
                 <div className="mb-6">
-                    <h3 className="font-serif text-3xl font-semibold text-foreground mb-2">Enquire Now</h3>
-                    <p className="text-muted-foreground">
+                    <h3 className="font-serif text-2xl sm:text-3xl font-semibold text-foreground mb-2">Enquire Now</h3>
+                    <p className="text-sm sm:text-base text-muted-foreground">
                         Interested in <span className="font-semibold text-foreground">{tourTitle}</span>? Fill out the form below
                         and we'll get back to you within 24 hours.
                     </p>
@@ -161,7 +161,7 @@ export function EnquiryForm({ tourTitle }: { tourTitle: string }) {
                         </div>
 
                         {/* Number of People */}
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div className="space-y-2">
                                 <Label htmlFor="numberOfPeople" className="flex items-center gap-2">
                                     <Users className="w-4 h-4 text-primary" />
