@@ -1,101 +1,98 @@
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Calendar, Users, IndianRupee, ArrowRight } from "lucide-react"
 import Link from "next/link"
-
-const tours = [
-  {
-    title: "Bangalore to Tirupathi",
-    description: "Experience divine blessings at one of India's most sacred temples",
-    duration: "2 Days",
-    people: "For 2",
-    price: "2,500",
-    image: "/tirupati-temple-architecture-golden-hour-india.jpg",
-  },
-  {
-    title: "Munnar Honeymoon",
-    description: "Romantic getaway in the misty hills of Kerala's tea country",
-    duration: "3 Days",
-    people: "For 2",
-    price: "3,500",
-    image: "/munnar-tea-plantations-misty-mountains-kerala-roma.jpg",
-  },
-  {
-    title: "Dudhsagar Falls Tour",
-    description: "Witness the majestic four-tiered waterfall in all its glory",
-    duration: "2 Days",
-    people: "For 2",
-    price: "5,500",
-    image: "/dudhsagar-waterfall-goa-india-surrounded-by-lush-f.jpg",
-  },
-  {
-    title: "Karnataka Wildlife Safari",
-    description: "Explore the rich wildlife across Karnataka's national parks",
-    duration: "6 Days",
-    people: "For 2",
-    price: "10,000",
-    image: "/tiger-in-karnataka-wildlife-sanctuary-bandipur-for.jpg",
-  },
-]
+import { tours } from "@/lib/tours-data"
+import { ArrowRight } from "lucide-react"
 
 export function Tours() {
   return (
-    <section id="tours" className="py-24 md:py-32 bg-background">
+    <section id="tours" className="py-24 md:py-32 bg-gradient-to-b from-background to-muted/20">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="max-w-3xl mx-auto text-center mb-16">
-          <p className="text-sm uppercase tracking-widest text-muted-foreground font-medium mb-4">Tour Packages</p>
+          <p className="text-sm uppercase tracking-widest text-muted-foreground font-medium mb-4">
+            Trending Tours
+          </p>
           <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-light text-foreground tracking-tight mb-6 text-balance">
-            Curated Journeys Across India
+            Upcoming Adventures
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
-            Discover handpicked destinations and immersive experiences designed to create lasting memories.
+            Embark on extraordinary journeys to the world's most captivating destinations
           </p>
         </div>
 
         {/* Tours Grid */}
-        <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-          {tours.map((tour, index) => (
-            <Card
-              key={index}
-              className="group overflow-hidden border-border hover:shadow-xl transition-all duration-300"
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+          {tours.map((tour) => (
+            <Link
+              key={tour.id}
+              href={`/tours/${tour.id}`}
+              className="group block"
             >
-              <div className="aspect-[4/3] overflow-hidden">
-                <img
-                  src={tour.image || "/placeholder.svg"}
-                  alt={tour.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-              <CardContent className="p-8">
-                <h3 className="font-serif text-2xl md:text-3xl font-semibold text-foreground mb-3">{tour.title}</h3>
-                <p className="text-muted-foreground leading-relaxed mb-6">{tour.description}</p>
+              <div className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 h-[320px]">
+                {/* Background Image */}
+                <div className="absolute inset-0">
+                  <img
+                    src={tour.image}
+                    alt={tour.subtitle}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                </div>
 
-                {/* Tour Details */}
-                <div className="flex flex-wrap gap-4 mb-6 pb-6 border-b border-border">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Calendar className="w-4 h-4 text-primary" />
-                    <span>{tour.duration}</span>
+                {/* Gradient Overlay */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${tour.gradient} opacity-60 mix-blend-multiply`} />
+
+                {/* Content */}
+                <div className="relative h-full flex flex-col justify-between p-6 text-white">
+                  {/* Top Section - Title */}
+                  <div>
+                    <p className="text-xs uppercase tracking-wider font-semibold mb-1 opacity-90">
+                      {tour.title}
+                    </p>
+                    <h3 className="font-serif text-2xl md:text-3xl font-bold leading-tight mb-3">
+                      {tour.subtitle}
+                    </h3>
                   </div>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Users className="w-4 h-4 text-primary" />
-                    <span>{tour.people}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
-                    <IndianRupee className="w-4 h-4 text-primary" />
-                    <span>{tour.price}/- per person</span>
+
+                  {/* Bottom Section - Days Badge and Dates */}
+                  <div>
+                    {/* Days Badge */}
+                    <div className="inline-flex items-center justify-center bg-white text-gray-900 rounded-full w-14 h-14 mb-3 shadow-lg">
+                      <div className="text-center">
+                        <div className="text-2xl font-bold leading-none">{tour.days}</div>
+                        <div className="text-[10px] uppercase font-semibold">Days</div>
+                      </div>
+                    </div>
+
+                    {/* Dates */}
+                    <div className="space-y-1">
+                      {tour.dates.map((date, idx) => (
+                        <p key={idx} className="text-xs font-medium tracking-wide opacity-95">
+                          {date}
+                        </p>
+                      ))}
+                    </div>
                   </div>
                 </div>
 
-                <Link href="/itinerary">
-                  <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 group">
-                    View Itinerary
-                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
+                {/* Hover Effect - Arrow */}
+                <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="bg-white/20 backdrop-blur-sm rounded-full p-2">
+                    <ArrowRight className="w-5 h-5 text-white" />
+                  </div>
+                </div>
+              </div>
+            </Link>
           ))}
+        </div>
+
+        {/* View All Button */}
+        <div className="text-center mt-12">
+          <Link
+            href="/tours"
+            className="inline-flex items-center gap-2 px-8 py-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors font-medium"
+          >
+            View All Tours
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </div>
     </section>
