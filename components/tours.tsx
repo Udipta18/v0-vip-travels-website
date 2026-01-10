@@ -7,79 +7,65 @@ export function Tours() {
   const upcomingTours = tours.filter(tour => tour.status === "upcoming")
 
   return (
-    <section id="tours" className="py-24 md:py-32 bg-gradient-to-b from-background to-muted/20">
+    <section id="tours" className="py-24 md:py-32 bg-gradient-to-b from-background to-muted/30">
       <div className="container mx-auto px-4">
         {/* Header */}
-        <div className="max-w-3xl mx-auto text-center mb-16">
-          <p className="text-sm uppercase tracking-widest text-muted-foreground font-medium mb-4">
-            Trending Tours
-          </p>
-          <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-light text-foreground tracking-tight mb-6 text-balance">
-            Upcoming Adventures
-          </h2>
-          <p className="text-lg text-muted-foreground leading-relaxed">
-            Embark on extraordinary journeys to the world's most captivating destinations
-          </p>
+        <div className="flex flex-col items-center justify-center mb-16 gap-6">
+          <div className="max-w-3xl text-center w-full">
+            <p className="text-sm uppercase tracking-widest text-muted-foreground font-medium mb-4">
+              Trending Tours
+            </p>
+            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-light text-foreground tracking-tight mb-6 text-balance">
+              Upcoming Adventures
+            </h2>
+            <p className="text-lg text-muted-foreground leading-relaxed mt-4">
+              Embark on extraordinary journeys to the world's most captivating destinations
+            </p>
+          </div>
         </div>
 
         {/* Tours Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
           {upcomingTours.map((tour) => (
             <Link
               key={tour.id}
               href={`/tours/${tour.id}`}
-              className="group block"
+              className="group block h-full perspective-1000"
             >
-              <div className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 h-[320px]">
-                {/* Background Image */}
-                <div className="absolute inset-0">
-                  <img
-                    src={tour.image}
-                    alt={tour.subtitle}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
+              <div className="relative overflow-hidden bg-card rounded-2xl border-2 border-transparent hover:border-primary/10 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 h-full flex flex-col">
+                <div className="p-3">
+                  <div className="aspect-[4/3] overflow-hidden rounded-xl bg-muted relative">
+                    <img
+                      src={tour.image}
+                      alt={tour.subtitle}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                    <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-md rounded-full px-3 py-1 shadow-md transition-colors duration-700 hover:bg-white">
+                      {/* Changed to a darker amber/bronze color for readability */}
+                      <span className="text-xs font-bold text-amber-700 group-hover:text-amber-800 transition-colors">{tour.days} Days</span>
+                    </div>
+                  </div>
                 </div>
-
-                {/* Gradient Overlay */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${tour.gradient} opacity-60 mix-blend-multiply`} />
 
                 {/* Content */}
-                <div className="relative h-full flex flex-col justify-between p-6 text-white">
-                  {/* Top Section - Title */}
-                  <div>
-                    <p className="text-xs uppercase tracking-wider font-semibold mb-1 opacity-90">
-                      {tour.title}
-                    </p>
-                    <h3 className="font-serif text-2xl md:text-3xl font-bold leading-tight mb-3">
-                      {tour.subtitle}
-                    </h3>
-                  </div>
+                <div className="p-6 pt-2 flex flex-col flex-grow">
+                  {/* Darker color for the subtitle/category */}
+                  <p className="text-xs uppercase tracking-wider font-bold mb-2 text-amber-700/90 group-hover:text-amber-800 transition-colors duration-500">
+                    {tour.title}
+                  </p>
+                  <h3 className="font-serif text-xl md:text-2xl font-bold leading-tight mb-3 text-foreground group-hover:text-primary transition-colors">
+                    {tour.subtitle}
+                  </h3>
 
-                  {/* Bottom Section - Days Badge and Dates */}
-                  <div>
-                    {/* Days Badge */}
-                    <div className="inline-flex items-center justify-center bg-white text-gray-900 rounded-full w-14 h-14 mb-3 shadow-lg">
-                      <div className="text-center">
-                        <div className="text-2xl font-bold leading-none">{tour.days}</div>
-                        <div className="text-[10px] uppercase font-semibold">Days</div>
-                      </div>
-                    </div>
-
-                    {/* Dates */}
-                    <div className="space-y-1">
-                      {tour.dates.map((date, idx) => (
-                        <p key={idx} className="text-xs font-medium tracking-wide opacity-95">
-                          {date}
-                        </p>
+                  <div className="mt-auto pt-4 border-t border-border/50 flex items-center justify-between text-sm text-muted-foreground">
+                    <div className="flex flex-wrap gap-2">
+                      {tour.dates.slice(0, 2).map((date, idx) => (
+                        /* Explicitly setting text-foreground (dark) for dates */
+                        <span key={idx} className="bg-muted px-2 py-1 rounded-md text-xs font-medium text-foreground/80 group-hover:text-foreground transition-colors duration-300">{date}</span>
                       ))}
+                      {tour.dates.length > 2 && <span className="text-xs self-center">+{tour.dates.length - 2} more</span>}
                     </div>
-                  </div>
-                </div>
-
-                {/* Hover Effect - Arrow */}
-                <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="bg-white/20 backdrop-blur-sm rounded-full p-2">
-                    <ArrowRight className="w-5 h-5 text-white" />
+                    <ArrowRight className="w-4 h-4 text-primary group-hover:translate-x-1 transition-transform" />
                   </div>
                 </div>
               </div>
@@ -88,10 +74,10 @@ export function Tours() {
         </div>
 
         {/* View All Button */}
-        <div className="text-center mt-12">
+        <div className="text-center mt-16">
           <Link
             href="/tours"
-            className="inline-flex items-center gap-2 px-8 py-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors font-medium"
+            className="inline-flex items-center gap-2 px-8 py-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1 font-medium"
           >
             View All Tours
             <ArrowRight className="w-4 h-4" />
