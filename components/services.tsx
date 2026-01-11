@@ -1,5 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 import { Bus, Car, UsersIcon } from "lucide-react"
+import Link from "next/link"
 
 const services = [
   {
@@ -65,6 +67,15 @@ export function Services() {
                   </div>
                   <h3 className="font-serif text-2xl font-semibold text-foreground mb-3 group-hover:text-primary transition-colors">{service.title}</h3>
                   <p className="text-muted-foreground leading-relaxed">{service.description}</p>
+                  {service.title === "Luxury Bus Services" && (
+                    <div className="mt-6">
+                      <Link href="/luxury-bus">
+                        <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 py-6 text-lg font-semibold rounded-full">
+                          Book Now
+                        </Button>
+                      </Link>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </div>
