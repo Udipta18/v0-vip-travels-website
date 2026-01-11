@@ -4,6 +4,7 @@ import { Cormorant_Garamond, Inter } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { ThemeProvider } from "@/components/theme-provider"
 import { ScrollToTop } from "@/components/scroll-to-top"
+import { Chatbot } from "@/components/chatbot"
 import "./globals.css"
 
 const cormorant = Cormorant_Garamond({
@@ -56,6 +57,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} forcedTheme="light">
           {children}
         </ThemeProvider>
+        <Chatbot />
         <ScrollToTop />
         <Analytics />
       </body>
