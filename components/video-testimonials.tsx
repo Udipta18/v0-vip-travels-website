@@ -1,33 +1,31 @@
 "use client"
 
-import { useCallback, useEffect, useState } from "react"
-import useEmblaCarousel from "embla-carousel-react"
-import { Play, ChevronLeft, ChevronRight } from "lucide-react"
+import { useEffect, useState, useRef } from "react"
+import { Play } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
 
 // Sample video data - replace with real testimonials later
 const videos = [
     {
-        id: "dQw4w9WgXcQ", // Placeholder: Rick Roll (classic placeholder)
+        id: "dQw4w9WgXcQ",
         title: "Amazing Family Trip to Manali",
         author: "Sharma Family",
         thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
     },
     {
-        id: "LXb3EKWsInQ", // Placeholder: 4K Nature
+        id: "LXb3EKWsInQ",
         title: "Unforgettable Journey to Goa",
         author: "Rahul & Friends",
         thumbnail: "https://img.youtube.com/vi/LXb3EKWsInQ/maxresdefault.jpg",
     },
     {
-        id: "ysz5S6P_ks0", // Placeholder: SpaceX
+        id: "ysz5S6P_ks0",
         title: "Safe & Comfortable Business Travel",
         author: "Amit Patel",
         thumbnail: "https://img.youtube.com/vi/ysz5S6P_ks0/maxresdefault.jpg",
     },
     {
-        id: "jNQXAC9IVRw", // Placeholder: Me at the zoo
+        id: "jNQXAC9IVRw",
         title: "Best Bus Service in Delhi",
         author: "Priya Singh",
         thumbnail: "https://img.youtube.com/vi/jNQXAC9IVRw/hqdefault.jpg",
@@ -35,36 +33,57 @@ const videos = [
 ]
 
 export function VideoTestimonials() {
-    const [emblaRef, emblaApi] = useEmblaCarousel({
-        align: "start",
-        loop: true,
-    })
+    const [hoveredVideo, setHoveredVideo] = useState<string | null>(null)
+    const scrollContainerRef = useRef<HTMLDivElement>(null)
+    const animationRef = useRef<number | null>(null)
+    const scrollPositionRef = useRef(0)
 
-    const [prevBtnEnabled, setPrevBtnEnabled] = useState(false)
-    const [nextBtnEnabled, setNextBtnEnabled] = useState(false)
-
-    const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi])
-    const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi])
-
-    const onSelect = useCallback((emblaApi: any) => {
-        setPrevBtnEnabled(emblaApi.canScrollPrev())
-        setNextBtnEnabled(emblaApi.canScrollNext())
-    }, [])
+    // Duplicate videos for seamless infinite loop
+    const duplicatedVideos = [...videos, ...videos, ...videos]
 
     useEffect(() => {
-        if (!emblaApi) return
-        onSelect(emblaApi)
-        emblaApi.on("reInit", onSelect)
-        emblaApi.on("select", onSelect)
-    }, [emblaApi, onSelect])
+        const scrollContainer = scrollContainerRef.current
+        if (!scrollContainer) return
 
-    // State to track which video is currently hovering
-    const [hoveredVideo, setHoveredVideo] = useState<string | null>(null)
+        const scrollSpeed = 0.5 // pixels per frame (adjust for speed)
+        let lastTimestamp = 0
+
+        const animate = (timestamp: number) => {
+            if (!lastTimestamp) lastTimestamp = timestamp
+            const delta = timestamp - lastTimestamp
+            lastTimestamp = timestamp
+
+            if (!hoveredVideo && scrollContainer) {
+                // Move right to left (increase scrollLeft)
+                scrollPositionRef.current += scrollSpeed * (delta / 16) // normalize to ~60fps
+
+                // Get the width of one set of videos
+                const singleSetWidth = scrollContainer.scrollWidth / 3
+
+                // Reset position when we've scrolled past one complete set
+                if (scrollPositionRef.current >= singleSetWidth) {
+                    scrollPositionRef.current = scrollPositionRef.current - singleSetWidth
+                }
+
+                scrollContainer.scrollLeft = scrollPositionRef.current
+            }
+
+            animationRef.current = requestAnimationFrame(animate)
+        }
+
+        animationRef.current = requestAnimationFrame(animate)
+
+        return () => {
+            if (animationRef.current) {
+                cancelAnimationFrame(animationRef.current)
+            }
+        }
+    }, [hoveredVideo])
 
     return (
         <section id="testimonials" className="py-24 bg-gradient-to-b from-background to-muted/30">
             <div className="container mx-auto px-4">
-                {/* Header with Navigation */}
+                {/* Header */}
                 <div className="flex flex-col items-center justify-center mb-12 gap-6">
                     <div className="max-w-3xl text-center w-full">
                         <p className="text-sm uppercase tracking-widest text-muted-foreground font-medium mb-4">
@@ -77,43 +96,28 @@ export function VideoTestimonials() {
                 </div>
 
                 {/* Carousel Container */}
-                <div className="relative max-w-full mx-auto group/carousel">
-                    {/* Arrows positioned on sides */}
-                    <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={scrollPrev}
-                        disabled={!prevBtnEnabled}
-                        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 z-20 rounded-full w-12 h-12 border-primary/20 bg-background/80 backdrop-blur-sm shadow-lg hover:bg-primary/10 hover:text-primary transition-all opacity-0 group-hover/carousel:opacity-100 disabled:opacity-0"
+                <div className="relative max-w-full mx-auto">
+                    <div
+                        ref={scrollContainerRef}
+                        className="overflow-hidden"
+                        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                     >
-                        <ChevronLeft className="w-6 h-6" />
-                        <span className="sr-only">Previous slide</span>
-                    </Button>
-
-                    <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={scrollNext}
-                        disabled={!nextBtnEnabled}
-                        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-20 rounded-full w-12 h-12 border-primary/20 bg-background/80 backdrop-blur-sm shadow-lg hover:bg-primary/10 hover:text-primary transition-all opacity-0 group-hover/carousel:opacity-100 disabled:opacity-0"
-                    >
-                        <ChevronRight className="w-6 h-6" />
-                        <span className="sr-only">Next slide</span>
-                    </Button>
-                    <div className="overflow-hidden px-1" ref={emblaRef}>
-                        <div className="flex -ml-8">
-                            {videos.map((video) => (
-                                <div key={video.id} className="flex-[0_0_100%] md:flex-[0_0_50%] lg:flex-[0_0_33.333%] pl-8 min-w-0 py-4">
-                                    <div className="h-full group cursor-pointer perspective-1000">
+                        <div className="flex gap-8 w-max">
+                            {duplicatedVideos.map((video, index) => (
+                                <div
+                                    key={`${video.id}-${index}`}
+                                    className="w-[90vw] md:w-[45vw] lg:w-[30vw] flex-shrink-0"
+                                >
+                                    <div className="h-full group cursor-pointer">
                                         <Card
                                             className="overflow-hidden border-2 border-transparent hover:border-primary/10 h-full transition-all duration-500 transform hover:-translate-y-3 hover:shadow-2xl shadow-lg bg-card rounded-2xl"
-                                            onMouseEnter={() => setHoveredVideo(video.id)}
+                                            onMouseEnter={() => setHoveredVideo(`${video.id}-${index}`)}
                                             onMouseLeave={() => setHoveredVideo(null)}
                                             onClick={() => window.open(`https://www.youtube.com/watch?v=${video.id}`, '_blank')}
                                         >
                                             <div className="p-3">
                                                 <div className="relative aspect-video bg-muted overflow-hidden rounded-xl">
-                                                    {hoveredVideo === video.id ? (
+                                                    {hoveredVideo === `${video.id}-${index}` ? (
                                                         <iframe
                                                             width="100%"
                                                             height="100%"
@@ -152,8 +156,8 @@ export function VideoTestimonials() {
                             ))}
                         </div>
                     </div>
-                </div >
-            </div >
-        </section >
+                </div>
+            </div>
+        </section>
     )
 }
