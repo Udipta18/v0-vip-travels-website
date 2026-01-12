@@ -53,7 +53,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`light ${cormorant.variable} ${inter.variable}`} suppressHydrationWarning>
-      <body className={`font-sans antialiased`}>
+      <body className={`font-sans antialiased`} suppressHydrationWarning>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} forcedTheme="light">
           {children}
         </ThemeProvider>

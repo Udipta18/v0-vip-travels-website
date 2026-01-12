@@ -133,6 +133,63 @@ export function Chatbot() {
         }
     }
 
+    // Quick message function for preset buttons
+    const sendQuickMessage = async (text: string) => {
+        if (isLoading) return
+
+        const userMessage: Message = {
+            role: "user",
+            content: text,
+            timestamp: new Date(),
+        }
+
+        setMessages((prev) => [...prev, userMessage])
+        setIsLoading(true)
+
+        try {
+            const history = messages.slice(1).map(msg => ({
+                role: msg.role,
+                content: msg.content
+            }))
+
+            const apiUrl = process.env.NEXT_PUBLIC_CHATBOT_API_URL || "https://chat-bot-backend-psi-smoky.vercel.app"
+            const response = await fetch(`${apiUrl}/api/chat`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    message: text,
+                    history: history
+                }),
+            })
+
+            if (!response.ok) {
+                throw new Error(`API Error: ${response.status}`)
+            }
+
+            const data = await response.json()
+
+            const assistantMessage: Message = {
+                role: "assistant",
+                content: data.response || "I apologize, but I couldn't process that request.",
+                timestamp: new Date(),
+            }
+
+            setMessages((prev) => [...prev, assistantMessage])
+        } catch (error) {
+            console.error("Chat error:", error)
+            const errorMessage: Message = {
+                role: "assistant",
+                content: "I'm having trouble connecting. Please try again.",
+                timestamp: new Date(),
+            }
+            setMessages((prev) => [...prev, errorMessage])
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
     const handleKeyPress = (e: React.KeyboardEvent) => {
         if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault()
@@ -218,6 +275,21 @@ export function Chatbot() {
 
                     {/* Input Area */}
                     <div className="p-4 bg-card border-t border-border">
+                        {/* Quick Suggestions */}
+                        <div className="flex gap-2 mb-3">
+                            <button
+                                onClick={() => sendQuickMessage("What are the bus fares?")}
+                                className="flex-1 py-2 px-3 bg-gradient-to-r from-purple-500/10 to-primary/10 border border-purple-200 rounded-xl text-sm font-medium text-foreground hover:from-purple-500/20 hover:to-primary/20 transition-all duration-300"
+                            >
+                                🚌 Bus Fares
+                            </button>
+                            <button
+                                onClick={() => sendQuickMessage("Show me upcoming trips")}
+                                className="flex-1 py-2 px-3 bg-gradient-to-r from-primary/10 to-purple-500/10 border border-purple-200 rounded-xl text-sm font-medium text-foreground hover:from-primary/20 hover:to-purple-500/20 transition-all duration-300"
+                            >
+                                ✈️ Upcoming Trips
+                            </button>
+                        </div>
                         <div className="flex gap-2">
                             <div className="flex-1 relative">
                                 <input
