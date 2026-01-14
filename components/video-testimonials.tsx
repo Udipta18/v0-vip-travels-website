@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState, useRef } from "react"
+import Image from "next/image"
 import { Play } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 
@@ -19,10 +20,10 @@ const videos = [
         thumbnail: "https://img.youtube.com/vi/LXb3EKWsInQ/maxresdefault.jpg",
     },
     {
-        id: "ysz5S6P_ks0",
+        id: "9bZkp7q19f0",
         title: "Safe & Comfortable Business Travel",
         author: "Amit Patel",
-        thumbnail: "https://img.youtube.com/vi/ysz5S6P_ks0/maxresdefault.jpg",
+        thumbnail: "https://img.youtube.com/vi/9bZkp7q19f0/hqdefault.jpg",
     },
     {
         id: "jNQXAC9IVRw",
@@ -128,10 +129,11 @@ export function VideoTestimonials() {
                                                         />
                                                     ) : (
                                                         <>
-                                                            <img
+                                                            <Image
                                                                 src={video.thumbnail}
                                                                 alt={video.title}
-                                                                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                                                fill
+                                                                className="object-cover transition-transform duration-700 group-hover:scale-110"
                                                             />
                                                             <div className="absolute inset-0 flex items-center justify-center bg-black/10 group-hover:bg-black/30 transition-colors duration-300">
                                                                 <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-all duration-300 group-hover:bg-primary group-hover:text-white">

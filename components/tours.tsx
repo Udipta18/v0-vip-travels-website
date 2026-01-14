@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { tours } from "@/lib/tours-data"
 import { ArrowRight } from "lucide-react"
 
@@ -35,10 +36,11 @@ export function Tours() {
               <div className="relative overflow-hidden bg-card rounded-2xl border-2 border-transparent hover:border-primary/10 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 h-full flex flex-col">
                 <div className="p-3">
                   <div className="aspect-[4/3] overflow-hidden rounded-xl bg-muted relative">
-                    <img
+                    <Image
                       src={tour.image}
                       alt={tour.subtitle}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-700"
                     />
                     <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-md rounded-full px-3 py-1 shadow-md transition-colors duration-700 hover:bg-white">
                       {/* Changed to a darker amber/bronze color for readability */}
