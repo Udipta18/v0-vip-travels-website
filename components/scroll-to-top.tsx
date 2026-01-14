@@ -30,7 +30,7 @@ export function ScrollToTop() {
     }
 
     return (
-        <div className="fixed bottom-4 right-4 z-50">
+        <div className="fixed bottom-4 right-4 z-50 hidden lg:block">
             <Button
                 variant="default"
                 size="icon"

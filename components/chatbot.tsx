@@ -55,6 +55,25 @@ export function Chatbot() {
         }
     }, [])
 
+    // Auto-open on desktop and close after 10 seconds
+    useEffect(() => {
+        const isDesktop = window.innerWidth >= 1024;
+        if (isDesktop) {
+            const openTimer = setTimeout(() => {
+                setIsOpen(true);
+            }, 1000);
+
+            const closeTimer = setTimeout(() => {
+                setIsOpen(false);
+            }, 11000); // Closes 10 seconds after opening
+
+            return () => {
+                clearTimeout(openTimer);
+                clearTimeout(closeTimer);
+            };
+        }
+    }, [])
+
     const toggleVoiceInput = () => {
         if (!recognitionRef.current) {
             alert("Speech recognition is not supported in your browser. Please use Chrome or Edge.")
@@ -203,7 +222,7 @@ export function Chatbot() {
             {!isOpen && (
                 <button
                     onClick={() => setIsOpen(true)}
-                    className="fixed bottom-24 right-4 z-50 bg-gradient-to-r from-purple-600 via-primary to-purple-800 text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300 group"
+                    className="fixed bottom-4 lg:bottom-24 right-4 z-50 bg-gradient-to-r from-purple-600 via-primary to-purple-800 text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300 group"
                     aria-label="Open chat"
                 >
                     <Bot className="w-6 h-6 group-hover:animate-pulse" />
@@ -212,7 +231,7 @@ export function Chatbot() {
 
             {/* Chatbot Window */}
             {isOpen && (
-                <div className="fixed bottom-24 right-4 z-50 w-[380px] h-[600px] bg-card border border-border rounded-2xl shadow-2xl flex flex-col overflow-hidden">
+                <div className="fixed bottom-4 lg:bottom-24 right-4 z-50 w-[calc(100%-32px)] sm:w-[380px] h-[550px] sm:h-[600px] bg-card border border-border rounded-2xl shadow-2xl flex flex-col overflow-hidden">
                     {/* Header */}
                     <div className="bg-gradient-to-r from-purple-600 via-primary to-purple-800 text-white p-4 flex items-center justify-between">
                         <div className="flex items-center gap-3">
