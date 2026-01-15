@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Bus, Car, UsersIcon } from "lucide-react"
@@ -53,11 +54,12 @@ export function Services() {
                 className="overflow-hidden border-2 border-transparent hover:border-primary/10 h-full transition-all duration-500 transform hover:-translate-y-3 hover:shadow-2xl shadow-lg bg-card rounded-2xl flex flex-col"
               >
                 <div className="p-3">
-                  <div className="aspect-[3/2] overflow-hidden rounded-xl bg-muted">
-                    <img
+                  <div className="aspect-[3/2] overflow-hidden rounded-xl bg-muted relative">
+                    <Image
                       src={service.image || "/placeholder.svg"}
                       alt={service.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
                 </div>

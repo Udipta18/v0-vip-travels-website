@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { Award, Shield, Users } from "lucide-react"
 
 export function About() {
@@ -45,10 +46,11 @@ export function About() {
           {/* Image */}
           <div className="relative group perspective-1000">
             <div className="aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl skew-y-1 transition-all duration-700 ease-out group-hover:skew-y-0 group-hover:shadow-3xl bg-neutral-100">
-              <img
+              <Image
                 src="/luxury-tour-bus-on-indian-highway--professional-tr.jpg"
                 alt="V.I.P. Travels luxury bus"
-                className="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-110"
+                fill
+                className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-black/10 transition-opacity duration-300 group-hover:opacity-0" />
             </div>

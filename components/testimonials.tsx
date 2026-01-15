@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Quote, ChevronLeft, ChevronRight } from "lucide-react"
 import { useState, useEffect } from "react"
@@ -79,11 +80,14 @@ export function Testimonials() {
                         "{testimonial.content}"
                       </p>
                       <div className="flex flex-col items-center gap-4">
-                        <img
-                          src={testimonial.image || "/placeholder.svg"}
-                          alt={testimonial.name}
-                          className="w-16 h-16 rounded-full object-cover ring-4 ring-primary/10"
-                        />
+                        <div className="relative w-16 h-16 rounded-full overflow-hidden ring-4 ring-primary/10">
+                          <Image
+                            src={testimonial.image || "/placeholder.svg"}
+                            alt={testimonial.name}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
                         <div>
                           <p className="font-semibold text-foreground text-lg">{testimonial.name}</p>
                           <p className="text-sm text-muted-foreground">{testimonial.role}</p>
@@ -122,9 +126,8 @@ export function Testimonials() {
               <button
                 key={index}
                 onClick={() => goToSlide(index)}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  currentSlide === index ? "w-8 bg-primary" : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50"
-                }`}
+                className={`h-2 rounded-full transition-all duration-300 ${currentSlide === index ? "w-8 bg-primary" : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                  }`}
                 aria-label={`Go to testimonial ${index + 1}`}
               />
             ))}

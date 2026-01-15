@@ -6,6 +6,7 @@ import { Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { tours } from "@/lib/tours-data"
+import Image from "next/image"
 
 export function Hero() {
   const router = useRouter()
@@ -52,7 +53,7 @@ export function Hero() {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        <img src="/majestic-indian-temple-with-mountains-at-sunset--w.jpg" alt="Indian landscape" className="w-full h-full object-cover" />
+        <Image src="/majestic-indian-temple-with-mountains-at-sunset--w.jpg" alt="Indian landscape" fill className="object-cover" priority />
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-background/95" />
       </div>
 
@@ -105,8 +106,8 @@ export function Hero() {
                         onClick={() => router.push(`/tours/${tour.id}`)}
                         className="w-full px-6 py-3 flex items-center gap-4 hover:bg-gray-50 transition-colors group"
                       >
-                        <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
-                          <img src={tour.image} alt={tour.title} className="w-full h-full object-cover" />
+                        <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 relative">
+                          <Image src={tour.image} alt={tour.title} fill className="object-cover" />
                         </div>
                         <div className="flex-grow">
                           <p className="font-semibold text-gray-900 group-hover:text-primary transition-colors text-sm">{tour.title} {tour.subtitle}</p>

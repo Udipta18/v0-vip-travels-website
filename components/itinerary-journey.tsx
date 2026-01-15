@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import Image from "next/image"
 import { MapPin, Car, Flag, FlagTriangleRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
@@ -170,24 +171,22 @@ export function ItineraryJourney({ title, destinations }: ItineraryJourneyProps)
                       }}
                     >
                       <div
-                        className={`mb-2 text-sm font-bold whitespace-nowrap transition-all duration-500 ${
-                          currentStop === index
+                        className={`mb-2 text-sm font-bold whitespace-nowrap transition-all duration-500 ${currentStop === index
                             ? "text-primary scale-110"
                             : index < currentStop
                               ? "text-foreground"
                               : "text-muted-foreground"
-                        }`}
+                          }`}
                       >
                         {stop.day}
                       </div>
                       <div
-                        className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500 ${
-                          currentStop === index
+                        className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500 ${currentStop === index
                             ? "bg-primary text-primary-foreground scale-125 shadow-xl ring-4 ring-primary/30"
                             : index < currentStop
                               ? "bg-primary text-primary-foreground"
                               : "bg-muted text-muted-foreground"
-                        }`}
+                          }`}
                       >
                         {stop.type === "start" ? (
                           <Flag className="w-5 h-5" />
@@ -207,22 +206,21 @@ export function ItineraryJourney({ title, destinations }: ItineraryJourneyProps)
                     <div
                       key={index}
                       onClick={() => jumpToDestination(index)}
-                      className={`relative flex-shrink-0 px-8 transition-all duration-700 cursor-pointer hover:scale-105 ${
-                        index <= currentStop ? "opacity-100 translate-y-0" : "opacity-30 translate-y-4"
-                      }`}
+                      className={`relative flex-shrink-0 px-8 transition-all duration-700 cursor-pointer hover:scale-105 ${index <= currentStop ? "opacity-100 translate-y-0" : "opacity-30 translate-y-4"
+                        }`}
                       style={{ width: "400px" }}
                     >
                       {/* Destination card */}
                       <div
-                        className={`bg-card border border-border rounded-2xl overflow-hidden shadow-lg transition-all duration-500 ${
-                          currentStop === index ? "ring-2 ring-primary shadow-2xl scale-105" : ""
-                        } ${index > currentStop ? "blur-sm" : ""}`}
+                        className={`bg-card border border-border rounded-2xl overflow-hidden shadow-lg transition-all duration-500 ${currentStop === index ? "ring-2 ring-primary shadow-2xl scale-105" : ""
+                          } ${index > currentStop ? "blur-sm" : ""}`}
                       >
                         <div className="relative h-56 overflow-hidden">
-                          <img
+                          <Image
                             src={stop.image || "/placeholder.svg"}
                             alt={stop.name}
-                            className="w-full h-full object-cover"
+                            fill
+                            className="object-cover"
                           />
                           {currentStop === index && isAnimating && (
                             <div className="absolute inset-0 bg-primary/10 animate-pulse" />
