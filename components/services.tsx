@@ -1,6 +1,10 @@
+"use client"
+
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { Skeleton } from "@/components/ui/skeleton"
 import { Bus, Car, UsersIcon } from "lucide-react"
 import Link from "next/link"
 
@@ -11,6 +15,7 @@ const services = [
     description:
       "Experience comfort with our fleet of luxury buses featuring reclining seats, air conditioning, and modern amenities for group travel.",
     image: "/luxury-coach-bus-interior-with-comfortable-seats.jpg",
+    href: "/luxury-bus",
   },
   {
     icon: UsersIcon,
@@ -18,6 +23,7 @@ const services = [
     description:
       "Perfect for small groups and families. Our tempo travellers offer spacious interiors and smooth rides for memorable journeys.",
     image: "/tempo-traveller-van-on-scenic-mountain-road-india.jpg",
+    href: "/tempo-traveller",
   },
   {
     icon: Car,
@@ -25,61 +31,106 @@ const services = [
     description:
       "Private, comfortable transportation for individuals and couples. Choose from a range of premium vehicles for your travel needs.",
     image: "/luxury-sedan-car-on-indian-city-street.jpg",
+    href: "/premium-cabs",
   },
 ]
 
+// Service Card Skeleton
+function ServiceCardSkeleton() {
+  return (
+    <Card className="overflow-hidden h-full shadow-lg bg-card rounded-2xl flex flex-col">
+      <div className="p-3">
+        <Skeleton className="aspect-[3/2] rounded-xl" />
+      </div>
+      <CardContent className="p-8 pt-4 flex flex-col flex-grow">
+        <Skeleton className="w-14 h-14 rounded-xl mb-6" />
+        <Skeleton className="h-7 w-3/4 mb-3" />
+        <Skeleton className="h-4 w-full mb-2" />
+        <Skeleton className="h-4 w-5/6 mb-2" />
+        <Skeleton className="h-4 w-4/6 mb-6" />
+        <Skeleton className="h-12 w-full rounded-full mt-auto" />
+      </CardContent>
+    </Card>
+  )
+}
+
 export function Services() {
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 1000)
+    return () => clearTimeout(timer)
+  }, [])
+
   return (
     <section id="services" className="py-24 md:py-32 bg-gradient-to-b from-background to-muted/30">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="flex flex-col items-center justify-center mb-16 gap-6">
           <div className="max-w-3xl text-center w-full">
-            <p className="text-sm uppercase tracking-widest text-muted-foreground font-medium mb-4">Our Services</p>
-            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-light text-foreground tracking-tight text-balance">
-              Travel Solutions for Every Journey
-            </h2>
-            <p className="text-lg text-muted-foreground leading-relaxed mt-4">
-              From intimate family trips to grand group adventures, we offer comprehensive transportation solutions
-              tailored to your needs.
-            </p>
+            {isLoading ? (
+              <>
+                <Skeleton className="h-4 w-28 mx-auto mb-4" />
+                <Skeleton className="h-12 w-96 mx-auto mb-4" />
+                <Skeleton className="h-5 w-80 mx-auto" />
+              </>
+            ) : (
+              <>
+                <p className="text-sm uppercase tracking-widest text-muted-foreground font-medium mb-4">Our Services</p>
+                <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-light text-foreground tracking-tight text-balance">
+                  Travel Solutions for Every Journey
+                </h2>
+                <p className="text-lg text-muted-foreground leading-relaxed mt-4">
+                  From intimate family trips to grand group adventures, we offer comprehensive transportation solutions
+                  tailored to your needs.
+                </p>
+              </>
+            )}
           </div>
         </div>
 
         {/* Services Grid */}
         <div className="grid md:grid-cols-3 gap-8">
-          {services.map((service, index) => (
-            <div key={index} className="h-full group cursor-pointer perspective-1000">
-              <Card
-                className="overflow-hidden border-2 border-transparent hover:border-primary/10 h-full transition-all duration-500 transform hover:-translate-y-3 hover:shadow-2xl shadow-lg bg-card rounded-2xl flex flex-col"
-              >
-                <div className="p-3">
-                  <div className="aspect-[3/2] overflow-hidden rounded-xl bg-muted relative">
-                    <Image
-                      src={service.image || "/placeholder.svg"}
-                      alt={service.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
+          {isLoading ? (
+            <>
+              <ServiceCardSkeleton />
+              <ServiceCardSkeleton />
+              <ServiceCardSkeleton />
+            </>
+          ) : (
+            services.map((service, index) => (
+              <div key={index} className="h-full group cursor-pointer perspective-1000">
+                <Card
+                  className="overflow-hidden border-2 border-transparent hover:border-primary/10 h-full transition-all duration-500 transform hover:-translate-y-3 hover:shadow-2xl shadow-lg bg-card rounded-2xl flex flex-col"
+                >
+                  <div className="p-3">
+                    <div className="aspect-[3/2] overflow-hidden rounded-xl bg-muted relative">
+                      <Image
+                        src={service.image || "/placeholder.svg"}
+                        alt={service.title}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
                   </div>
-                </div>
-                <CardContent className="p-8 pt-4 flex flex-col flex-grow">
-                  <div className="p-3 bg-primary/10 rounded-xl w-fit mb-6 shadow-sm group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
-                    <service.icon className="w-8 h-8 text-primary group-hover:text-primary-foreground transition-colors duration-300" />
-                  </div>
-                  <h3 className="font-serif text-2xl font-semibold text-foreground mb-3 group-hover:text-primary transition-colors">{service.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed">{service.description}</p>
-                  <div className="mt-6">
-                    <Link href={service.title === "Luxury Bus Services" ? "/luxury-bus" : service.title === "Tempo Traveller" ? "/tempo-traveller" : "/premium-cabs"}>
-                      <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 py-6 text-lg font-semibold rounded-full">
-                        Book Now
-                      </Button>
-                    </Link>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          ))}
+                  <CardContent className="p-8 pt-4 flex flex-col flex-grow">
+                    <div className="p-3 bg-primary/10 rounded-xl w-fit mb-6 shadow-sm group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
+                      <service.icon className="w-8 h-8 text-primary group-hover:text-primary-foreground transition-colors duration-300" />
+                    </div>
+                    <h3 className="font-serif text-2xl font-semibold text-foreground mb-3 group-hover:text-primary transition-colors">{service.title}</h3>
+                    <p className="text-muted-foreground leading-relaxed">{service.description}</p>
+                    <div className="mt-6">
+                      <Link href={service.href}>
+                        <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 py-6 text-lg font-semibold rounded-full">
+                          Book Now
+                        </Button>
+                      </Link>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </section>
