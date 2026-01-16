@@ -5,6 +5,7 @@ import { Footer } from "@/components/footer"
 import { EnquiryForm } from "@/components/enquiry-form"
 import { ArrowLeft, Check, Users, Clock, Shield, Wifi, Coffee, MapPin } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { useEffect, useState, useRef } from "react"
 
@@ -76,16 +77,18 @@ const amenities = [
 
 export default function TempoTravellerPage() {
     const [hoveredImage, setHoveredImage] = useState<number | null>(null)
+    const [imagesLoaded, setImagesLoaded] = useState(false)
     const scrollContainerRef = useRef<HTMLDivElement>(null)
     const animationRef = useRef<number | null>(null)
     const scrollPositionRef = useRef(0)
+    const loadedCountRef = useRef(0)
 
     // Duplicate images for seamless infinite loop
     const duplicatedImages = [...tempoImages, ...tempoImages, ...tempoImages]
 
     useEffect(() => {
         const scrollContainer = scrollContainerRef.current
-        if (!scrollContainer) return
+        if (!scrollContainer || !imagesLoaded) return
 
         const scrollSpeed = 0.3
         let lastTimestamp = 0
@@ -113,7 +116,7 @@ export default function TempoTravellerPage() {
                 cancelAnimationFrame(animationRef.current)
             }
         }
-    }, [hoveredImage])
+    }, [hoveredImage, imagesLoaded])
 
     return (
         <main className="min-h-screen bg-background">
@@ -166,10 +169,20 @@ export default function TempoTravellerPage() {
                                         onMouseLeave={() => setHoveredImage(null)}
                                     >
                                         <div className="relative aspect-[16/9] overflow-hidden rounded-xl bg-muted shadow-lg hover:shadow-2xl transition-shadow duration-300">
-                                            <img
+                                            <Image
                                                 src={image.src}
                                                 alt={image.alt}
-                                                className="w-full h-full object-cover"
+                                                fill
+                                                className="object-cover"
+                                                priority={index < 3}
+                                                unoptimized
+                                                onLoad={() => {
+                                                    loadedCountRef.current += 1
+                                                    if (loadedCountRef.current >= 3 && !imagesLoaded) {
+                                                        setImagesLoaded(true)
+                                                    }
+                                                }}
+                                                sizes="(max-width: 768px) 90vw, (max-width: 1024px) 70vw, 60vw"
                                             />
                                             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
                                                 <p className="text-white text-lg font-medium">{image.caption}</p>

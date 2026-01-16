@@ -253,4 +253,67 @@
       transform: translateY(0);
     }
   }
+
+  /* Slow spin animation for rotating badge */
+  .animate-spin-slow {
+    animation: spin 20s linear infinite;
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Slow pulse animation */
+  .animate-pulse-slow {
+    animation: pulse-slow 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse-slow {
+
+    0%,
+    100% {
+      transform: scale(1);
+    }
+
+    50% {
+      transform: scale(1.05);
+    }
+  }
+
+  /* Shimmer/Skeleton loading animation - Theme matched */
+  .animate-shimmer {
+    background: linear-gradient(90deg,
+        hsl(40 20% 92%) 0%,
+        hsl(40 30% 86%) 20%,
+        hsl(40 20% 92%) 40%,
+        hsl(40 20% 92%) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
+  /* Dark mode shimmer variant */
+  .dark .animate-shimmer {
+    background: linear-gradient(90deg,
+        rgba(255, 255, 255, 0.06) 0%,
+        rgba(255, 255, 255, 0.12) 20%,
+        rgba(255, 255, 255, 0.06) 40%,
+        rgba(255, 255, 255, 0.06) 100%);
+    background-size: 200% 100%;
+  }
 }

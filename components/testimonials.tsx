@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton"
 import { Quote, ChevronLeft, ChevronRight } from "lucide-react"
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
@@ -30,16 +31,47 @@ const testimonials = [
   },
 ]
 
+// Testimonial Skeleton
+function TestimonialSkeleton() {
+  return (
+    <Card className="border-border bg-card shadow-lg">
+      <CardContent className="p-12 md:p-16 text-center">
+        <Skeleton className="w-16 h-16 rounded-full mx-auto mb-8" />
+        <div className="space-y-3 mb-10">
+          <Skeleton className="h-6 w-full mx-auto" />
+          <Skeleton className="h-6 w-5/6 mx-auto" />
+          <Skeleton className="h-6 w-4/6 mx-auto" />
+        </div>
+        <div className="flex flex-col items-center gap-4">
+          <Skeleton className="w-16 h-16 rounded-full" />
+          <div className="space-y-2">
+            <Skeleton className="h-5 w-32 mx-auto" />
+            <Skeleton className="h-4 w-24 mx-auto" />
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
+
 export function Testimonials() {
   const [currentSlide, setCurrentSlide] = useState(0)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 1100)
+    return () => clearTimeout(timer)
+  }, [])
+
+  useEffect(() => {
+    if (isLoading) return
+
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % testimonials.length)
-    }, 4000) // Change slide every 4 seconds
+    }, 4000)
 
     return () => clearInterval(interval)
-  }, [])
+  }, [isLoading])
 
   const goToSlide = (index: number) => {
     setCurrentSlide(index)
@@ -58,79 +90,104 @@ export function Testimonials() {
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="max-w-3xl mx-auto text-center mb-16">
-          <p className="text-sm uppercase tracking-widest text-muted-foreground font-medium mb-4">Testimonials</p>
-          <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-light text-foreground tracking-tight mb-6 text-balance">
-            What Our Travelers Say
-          </h2>
+          {isLoading ? (
+            <>
+              <Skeleton className="h-4 w-28 mx-auto mb-4" />
+              <Skeleton className="h-12 w-80 mx-auto" />
+            </>
+          ) : (
+            <>
+              <p className="text-sm uppercase tracking-widest text-muted-foreground font-medium mb-4">Testimonials</p>
+              <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-light text-foreground tracking-tight mb-6 text-balance">
+                What Our Travelers Say
+              </h2>
+            </>
+          )}
         </div>
 
         {/* Testimonial Slider */}
         <div className="relative max-w-4xl mx-auto">
-          <div className="overflow-hidden">
-            <div
-              className="flex transition-all duration-700 ease-in-out"
-              style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-            >
-              {testimonials.map((testimonial, index) => (
-                <div key={index} className="w-full flex-shrink-0 px-4">
-                  <Card className="border-border bg-card shadow-lg">
-                    <CardContent className="p-12 md:p-16 text-center">
-                      <Quote className="w-16 h-16 text-primary/20 mb-8 mx-auto" />
-                      <p className="text-muted-foreground leading-relaxed mb-10 text-xl md:text-2xl font-light italic text-balance">
-                        "{testimonial.content}"
-                      </p>
-                      <div className="flex flex-col items-center gap-4">
-                        <div className="relative w-16 h-16 rounded-full overflow-hidden ring-4 ring-primary/10">
-                          <Image
-                            src={testimonial.image || "/placeholder.svg"}
-                            alt={testimonial.name}
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
-                        <div>
-                          <p className="font-semibold text-foreground text-lg">{testimonial.name}</p>
-                          <p className="text-sm text-muted-foreground">{testimonial.role}</p>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-              ))}
+          {isLoading ? (
+            <div className="px-4">
+              <TestimonialSkeleton />
             </div>
-          </div>
+          ) : (
+            <>
+              <div className="overflow-hidden">
+                <div
+                  className="flex transition-all duration-700 ease-in-out"
+                  style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+                >
+                  {testimonials.map((testimonial, index) => (
+                    <div key={index} className="w-full flex-shrink-0 px-4">
+                      <Card className="border-border bg-card shadow-lg">
+                        <CardContent className="p-12 md:p-16 text-center">
+                          <Quote className="w-16 h-16 text-primary/20 mb-8 mx-auto" />
+                          <p className="text-muted-foreground leading-relaxed mb-10 text-xl md:text-2xl font-light italic text-balance">
+                            "{testimonial.content}"
+                          </p>
+                          <div className="flex flex-col items-center gap-4">
+                            <div className="relative w-16 h-16 rounded-full overflow-hidden ring-4 ring-primary/10">
+                              <Image
+                                src={testimonial.image || "/placeholder.svg"}
+                                alt={testimonial.name}
+                                fill
+                                className="object-cover"
+                              />
+                            </div>
+                            <div>
+                              <p className="font-semibold text-foreground text-lg">{testimonial.name}</p>
+                              <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  ))}
+                </div>
+              </div>
 
-          {/* Navigation Arrows */}
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={goToPrevious}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-12 rounded-full bg-background/80 backdrop-blur-sm hover:bg-background shadow-lg"
-            aria-label="Previous testimonial"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={goToNext}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-12 rounded-full bg-background/80 backdrop-blur-sm hover:bg-background shadow-lg"
-            aria-label="Next testimonial"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </Button>
+              {/* Navigation Arrows */}
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={goToPrevious}
+                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-12 rounded-full bg-background/80 backdrop-blur-sm hover:bg-background shadow-lg"
+                aria-label="Previous testimonial"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={goToNext}
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-12 rounded-full bg-background/80 backdrop-blur-sm hover:bg-background shadow-lg"
+                aria-label="Next testimonial"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </Button>
+            </>
+          )}
 
           {/* Dot Indicators */}
           <div className="flex justify-center gap-3 mt-12">
-            {testimonials.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => goToSlide(index)}
-                className={`h-2 rounded-full transition-all duration-300 ${currentSlide === index ? "w-8 bg-primary" : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50"
-                  }`}
-                aria-label={`Go to testimonial ${index + 1}`}
-              />
-            ))}
+            {isLoading ? (
+              <>
+                <Skeleton className="h-2 w-2 rounded-full" />
+                <Skeleton className="h-2 w-2 rounded-full" />
+                <Skeleton className="h-2 w-2 rounded-full" />
+              </>
+            ) : (
+              testimonials.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => goToSlide(index)}
+                  className={`h-2 rounded-full transition-all duration-300 ${currentSlide === index ? "w-8 bg-primary" : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                    }`}
+                  aria-label={`Go to testimonial ${index + 1}`}
+                />
+              ))
+            )}
           </div>
         </div>
       </div>
