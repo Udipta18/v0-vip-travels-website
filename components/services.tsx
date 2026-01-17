@@ -103,7 +103,7 @@ export function Services() {
                 <Card
                   className="overflow-hidden border-2 border-transparent hover:border-primary/10 h-full transition-all duration-500 transform hover:-translate-y-3 hover:shadow-2xl shadow-lg bg-card rounded-2xl flex flex-col"
                 >
-                  <div className="p-3">
+                <div className="p-3">
                     <div className="aspect-[3/2] overflow-hidden rounded-xl bg-muted relative">
                       <Image
                         src={service.image || "/placeholder.svg"}
@@ -112,25 +112,25 @@ export function Services() {
                         className="object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     </div>
-                  </div>
-                  <CardContent className="p-8 pt-4 flex flex-col flex-grow">
+                </div>
+                <CardContent className="p-8 pt-4 flex flex-col flex-grow">
                     <div className="p-3 bg-primary/10 rounded-xl w-fit mb-6 shadow-sm group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
                       <service.icon className="w-8 h-8 text-primary group-hover:text-primary-foreground transition-colors duration-300" />
                     </div>
                     <h3 className="font-serif text-2xl font-semibold text-foreground mb-3 group-hover:text-primary transition-colors">{service.title}</h3>
                     <p className="text-muted-foreground leading-relaxed">{service.description}</p>
                     <div className="mt-6">
-                      <Link href={service.href}>
-                        <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 py-6 text-lg font-semibold rounded-full">
-                          Book Now
-                        </Button>
-                      </Link>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            ))
-          )}
+                    <Link href={service.title === "Luxury Bus Services" ? "/luxury-bus" : service.title === "Tempo Traveller" ? "/tempo-traveller" : "/premium-cabs"}>
+                      <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 py-6 text-lg font-semibold rounded-full">
+                        Book Now
+                      </Button>
+                    </Link>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+            )
+          ))}
         </div>
       </div>
     </section>
